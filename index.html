@@ -528,12 +528,21 @@
                />
     </a-entity>
 
-  
+     <!--音声ボタン-->
+    <button id="play-audio" style="position: fixed; bottom: 20px; left: 20px;">音声を再生</button>
      <!-- 泡のエンティティ -->
      <a-entity id="bubbles"></a-entity>
      
      <!-- 泡を生成するスクリプト -->
      <script>
+       const playButton = document.getElementById('play-audio');
+             playButton.addEventListener('click', function () {
+       const audio = document.querySelector('audio');
+      if (audio) {
+      audio.play();
+      }
+      });
+
        AFRAME.registerComponent('bubble-generator', {
          init: function () {
            const sceneEl = this.el.sceneEl;
