@@ -531,19 +531,31 @@
      <!--音声再生ボタン-->
     <button id="play-audio" style="position: fixed; bottom: 20px; left: 20px; z-index: 999;">音声を再生</button>
 
-     <!-- 泡のエンティティ -->
+    <!-- 音を消すボタン -->
+    <button id="mute-audio" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">音を消す</button>
+     
+    <!-- 泡のエンティティ -->
      <a-entity id="bubbles"></a-entity>
      
      <!-- 泡を生成するスクリプト -->
      <script>
-       // 音再生
-       const playButton = document.getElementById('play-audio');
-             playButton.addEventListener('click', function () {
-       const audio = document.querySelector('audio');
-      if (audio) {
-      audio.play();
+       // 音声を再生するボタン処理
+      const playButton = document.getElementById('play-audio');
+      const muteButton = document.getElementById('mute-audio');
+      const audioElement = document.querySelector('audio');
+
+      if (audioElement) {
+        // 再生ボタンイベント
+        playButton.addEventListener('click', function () {
+          audioElement.play();
+        });
+
+        // 停止ボタンイベント
+        muteButton.addEventListener('click', function () {
+          audioElement.pause(); // 再生停止
+          audioElement.currentTime = 0; // 位置リセット
+        });
       }
-      });
 
        AFRAME.registerComponent('bubble-generator', {
          init: function () {
