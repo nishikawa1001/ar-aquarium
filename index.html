@@ -528,13 +528,15 @@
                />
     </a-entity>
 
-     <!--音声ボタン-->
-    <button id="play-audio" style="position: fixed; bottom: 20px; left: 20px;">音声を再生</button>
+     <!--音声再生ボタン-->
+    <button id="play-audio" style="position: fixed; bottom: 20px; left: 20px; z-index: 999;">音声を再生</button>
+
      <!-- 泡のエンティティ -->
      <a-entity id="bubbles"></a-entity>
      
      <!-- 泡を生成するスクリプト -->
      <script>
+       // 音再生
        const playButton = document.getElementById('play-audio');
              playButton.addEventListener('click', function () {
        const audio = document.querySelector('audio');
@@ -585,7 +587,7 @@
           init: function () {
             const sceneEl = this.el.sceneEl;
             const shellSize = 0.7; // 貝殻のサイズ
-            const numShells = 30; // 貝殻の数
+            const numShells = 15; // 貝殻の数
 
             for (let i = 0; i < numShells; i++) {
               // ランダム位置を生成
