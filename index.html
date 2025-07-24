@@ -688,9 +688,11 @@
             // 音声要素を作成
             const audio = document.createElement('audio');
             audio.src = 'suichu.mp3'; // 音声ファイルへのパス
-            audio.loop = true; // ループ再生設定
-            audio.autoplay = true; // 自動再生設定
-            audio.volume = 0.15; // 初期音量を設定（0〜1の範囲）
+            audio.loop = true; // 音のループ再生
+            audio.autoplay = true; // ページ読み込みと同時に再生
+            audio.volume = 0.15; // 音量の設定（0〜1）
+            document.body.appendChild(audio); // ページに追加
+            audio.play().catch(error => console.error("音がブロックされています: ", error));
 
             // シーンがレンダリングされた後に再生開始
             this.el.addEventListener('loaded', function () {
