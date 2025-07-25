@@ -134,7 +134,7 @@
 </head>
 
 <body style="margin: 0; overflow: hidden;">
-  <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;" disable-vr-button>
+  <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; sourceWidth: 1920; sourceHeight: 1080; displayWidth: 1920; displayHeight: 1080; debugUIEnabled: false;" disable-vr-button>
         <!-- カメラ設定 -->
         <a-camera blue-filter disable-mouse-controls position="0 0 0" fov="60"></a-camera>
 
@@ -731,21 +731,5 @@
      </script>
 
   </a-scene>
-  <script>
-      function adjustCanvasSize() {
-        const scene = document.querySelector('a-scene');
-        const canvas = scene && scene.canvas;
-        if (canvas) {
-          canvas.style.width = window.innerWidth + 'px';
-          canvas.style.height = window.innerHeight + 'px';
-        }
-      }
-
-      window.addEventListener('load', adjustCanvasSize);
-      window.addEventListener('resize', adjustCanvasSize);
-      window.addEventListener('orientationchange', () => {
-        setTimeout(adjustCanvasSize, 500); // 回転処理の完了を待つ
-      });
-  </script>
 </body>
 </html>
