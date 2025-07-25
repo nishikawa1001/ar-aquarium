@@ -1,28 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-  body {
-    margin: 0;
-    overflow: hidden;
-  }
-
-       #play-audio, #mute-audio {
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        z-index: 9999;
-        font-size: 18px;
-        padding: 10px;
-      }
-      #mute-audio {
-        left: auto;
-        right: 20px;
-      }
-
-    </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
@@ -117,6 +95,7 @@
         }
       });
 
+
     </script>
 </head>
 
@@ -124,11 +103,6 @@
   <a-scene vr-mode-ui="enabled: false" embedded arjs='sourceType: webcam; debugUIEnabled: false;' disable-vr-button>
         <!-- カメラ設定 -->
         <a-camera blue-filter disable-mouse-controls position="0 0 0"></a-camera>
-
-        <!-- 音声を読み込む -->
-        <a-assets>
-        <audio id="bgm" src="suichu.mp3" preload="auto"></audio>
-        </a-assets>
 
         <a-entity>
           <!-- 画像を表示、アニメーションの設定 --><!--ストライプ魚 -->
@@ -554,6 +528,9 @@
                />
     </a-entity>
 
+    <!-- 音再生・停止ボタン-->
+    <button id="play-audio" style="position: fixed; bottom: 20px; left: 20px; z-index: 999;">音声を再生</button>
+    <button id="mute-audio" style="position: fixed; bottom: 20px; right: 20px; z-index: 999;">音を消す</button>
     <!-- 泡のエンティティ -->
      <a-entity id="bubbles"></a-entity>
      
@@ -673,29 +650,63 @@
           }
         }
       });
-     </script>
-  </a-scene>
-                <!-- 音声再生/停止ボタン -->
-      <button id="play-audio">音を鳴らす</button>
-      <button id="mute-audio">音を止める</button>
 
-      <script>
-        const audio = document.querySelector("#bgm");
-        const playBtn = document.getElementById("play-audio");
-        const muteBtn = document.getElementById("mute-audio");
+      // スクリプトを適用
+      document.querySelector('#bubbles').setAttribute('fish-sway-animation', '');
 
-        // Androidなどでの再生制限に対応：ユーザーの操作で再生
-        playBtn.addEventListener("click", () => {
-          audio.play().catch(e => {
-            console.log("再生に失敗しました:", e);
-          });
+      AFRAME.registerComponent('background-audio', {
+          init: function () {
+            // 音声要素を作成
+            const audio = document.createElement('audio');
+            audio.src = 'suichu.mp3'; // 音声ファイルへのパス
+            audio.loop = true; // ループ再生設定
+            audio.autoplay = true; // 自動再生設定
+            audio.volume = 0.15; // 初期音量を設定（0〜1の範囲）
+
+            // シーンがレンダリングされた後に再生開始
+            this.el.addEventListener('loaded', function () {
+              audio.play();
+            });
+
+            // 音量調整用のインターフェースを作成
+            const volumeControl = document.createElement('input');
+            volumeControl.type = 'range';
+            volumeControl.min = 0;
+            volumeControl.max = 1;
+            volumeControl.step = 0.1;
+            volumeControl.value = audio.volume;
+            volumeControl.style.position = 'fixed';
+            volumeControl.style.top = '10px';
+            volumeControl.style.left = '10px';
+
+            // 音量変更時の処理
+            volumeControl.addEventListener('input', function () {
+              audio.volume = this.value;
+            });
+
+            // ページに音声と音量コントロールを追加
+            document.body.appendChild(audio);
+            document.body.appendChild(volumeControl);
+
+            // **再生/停止ボタンの動作**
+        const playBtn = document.getElementById('play-audio');
+        const muteBtn = document.getElementById('mute-audio');
+
+        playBtn.addEventListener('click', function () {
+          audio.play();
         });
 
-        // 停止して最初に戻す
-        muteBtn.addEventListener("click", () => {
+        muteBtn.addEventListener('click', function () {
           audio.pause();
           audio.currentTime = 0;
         });
-      </script>
+      }
+    });
+
+        // スクリプトを適用
+        document.querySelector('a-scene').setAttribute('background-audio', '');
+     </script>
+
+  </a-scene>
 </body>
 </html>
