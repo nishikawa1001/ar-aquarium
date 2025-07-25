@@ -3,15 +3,21 @@
 <head>
     <style>
 
-      html, body, a-scene, canvas {
-      margin: 0;
-      padding: 0;
-      width: 100vw;
-      height: 100vh;
-      overflow: hidden;
-      position: fixed;
-      top: 0;
-      left: 0;
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      a-scene, canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+        z-index: 0;
       }
 
     #play-audio, #mute-audio {
@@ -135,7 +141,7 @@
 </head>
 
 <body style="margin: 0; overflow: hidden;">
-  <a-scene vr-mode-ui="enabled: false" embedded arjs='sourceType: webcam; sourceWidth: 1280; sourceHeight: 720; displayWidth: 1280; displayHeight: 720; debugUIEnabled: false;' disable-vr-button>
+  <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; sourceWidth: 1920; sourceHeight: 1080; displayWidth: 1920; displayHeight: 1080; debugUIEnabled: false;" disable-vr-button>
         <!-- カメラ設定 -->
         <a-camera blue-filter disable-mouse-controls position="0 0 0" fov="60"></a-camera>
 
